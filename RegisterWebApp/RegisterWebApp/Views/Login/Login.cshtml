@@ -1,0 +1,51 @@
+﻿@model RegisterWebApp.Models.Login
+@{
+    ViewBag.Title = "Login";
+}
+@{
+    var message = TempData["successmessage"] ?? string.Empty;
+}
+
+<script type="text/javascript">
+var message = '@message';
+if(message)
+    alert(message);
+</script>
+<h2>Login</h2>
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()          // this is for prevent CSRF attack
+                                        @Html.ValidationSummary(true)
+    if (@ViewBag.Message != null)
+    {
+        <div style="border: 1px solid red">
+            @ViewBag.Message
+        </div>
+    }
+    @Html.ValidationSummary(true, "Login failed. Check your login details.");
+    <div>
+        <fieldset>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Email)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Password)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+            <div class="editor-label">
+                @Html.CheckBoxFor(model => model.RememberMe)
+                @Html.LabelFor(model => model.RememberMe)
+            </div>
+            <input type="submit" value="Log In" />
+        </fieldset>
+    </div>
+}
+

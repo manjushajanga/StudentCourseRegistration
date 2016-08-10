@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StudentCourseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Credit" Type="int" Nullable="false" />
+          <Property Name="Instructor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TotalSeats" Type="int" Nullable="false" />
+          <Property Name="SeatsTaken" Type="int" Nullable="false" />
+          <Property Name="CourseDesc" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CourseTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="CourseDays" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Enrolls">
+          <Key>
+            <PropertyRef Name="UserUserId" />
+            <PropertyRef Name="CourseCourseId" />
+          </Key>
+          <Property Name="Grade" Type="nvarchar(max)" />
+          <Property Name="UserUserId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CourseCourseId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="EmailID" />
+          </Key>
+          <Property Name="UserId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="bigint" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Department" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Enrolls_ToCourse">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+          <End Role="Enrolls" Type="Self.Enrolls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="Enrolls">
+              <PropertyRef Name="CourseCourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Enrolls_ToUsers">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Enrolls" Type="Self.Enrolls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="EmailID" />
+            </Principal>
+            <Dependent Role="Enrolls">
+              <PropertyRef Name="UserUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentCourseModelStoreContainer">
+          <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enrolls" EntityType="Self.Enrolls" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Enrolls_ToCourse" Association="Self.FK_Enrolls_ToCourse">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Enrolls" EntitySet="Enrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enrolls_ToUsers" Association="Self.FK_Enrolls_ToUsers">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Enrolls" EntitySet="Enrolls" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StudentCourseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cours">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Credit" Type="Int32" Nullable="false" />
+          <Property Name="Instructor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TotalSeats" Type="Int32" Nullable="false" />
+          <Property Name="SeatsTaken" Type="Int32" Nullable="false" />
+          <Property Name="CourseDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CourseTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="CourseDays" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Enrolls" Relationship="Self.FK_Enrolls_ToCourse" FromRole="Courses" ToRole="Enrolls" />
+        </EntityType>
+        <EntityType Name="Enroll">
+          <Key>
+            <PropertyRef Name="UserUserId" />
+            <PropertyRef Name="CourseCourseId" />
+          </Key>
+          <Property Name="Grade" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CourseCourseId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cours" Relationship="Self.FK_Enrolls_ToCourse" FromRole="Enrolls" ToRole="Courses" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Enrolls_ToUsers" FromRole="Enrolls" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="EmailID" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="Int64" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Department" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Enrolls" Relationship="Self.FK_Enrolls_ToUsers" FromRole="Users" ToRole="Enrolls" />
+        </EntityType>
+        <Association Name="FK_Enrolls_ToCourse">
+          <End Role="Courses" Type="Self.Cours" Multiplicity="1" />
+          <End Role="Enrolls" Type="Self.Enroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="Enrolls">
+              <PropertyRef Name="CourseCourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Enrolls_ToUsers">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Enrolls" Type="Self.Enroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="EmailID" />
+            </Principal>
+            <Dependent Role="Enrolls">
+              <PropertyRef Name="UserUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courses" EntityType="Self.Cours" />
+          <EntitySet Name="Enrolls" EntityType="Self.Enroll" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Enrolls_ToCourse" Association="Self.FK_Enrolls_ToCourse">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Enrolls" EntitySet="Enrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enrolls_ToUsers" Association="Self.FK_Enrolls_ToUsers">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Enrolls" EntitySet="Enrolls" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StudentCourseModelStoreContainer" CdmEntityContainer="StudentEntities4">
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="StudentCourseModel.Cours">
+              <MappingFragment StoreEntitySet="Courses">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="Instructor" ColumnName="Instructor" />
+                <ScalarProperty Name="TotalSeats" ColumnName="TotalSeats" />
+                <ScalarProperty Name="SeatsTaken" ColumnName="SeatsTaken" />
+                <ScalarProperty Name="CourseDesc" ColumnName="CourseDesc" />
+                <ScalarProperty Name="CourseTime" ColumnName="CourseTime" />
+                <ScalarProperty Name="CourseDays" ColumnName="CourseDays" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enrolls">
+            <EntityTypeMapping TypeName="StudentCourseModel.Enroll">
+              <MappingFragment StoreEntitySet="Enrolls">
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
+                <ScalarProperty Name="CourseCourseId" ColumnName="CourseCourseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="StudentCourseModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

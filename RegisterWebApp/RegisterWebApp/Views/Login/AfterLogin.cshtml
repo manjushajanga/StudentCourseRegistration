@@ -1,0 +1,77 @@
+﻿@model IEnumerable<RegisterWebApp.User>
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<h2>My Profile</h2>
+
+@{
+    var message = TempData["successmesg"] ?? string.Empty;
+}
+
+<script type="text/javascript">
+var message = '@message';
+if(message)
+    alert(message);
+</script>
+@if (Session["LogedUserFullname"] != null)
+{
+
+    <h3>
+        Welcome @Session["LogedUserFullname"].ToString()
+    </h3>
+
+
+    <hr/>
+
+}
+
+
+   
+        <div style="float:left">
+            <b>
+                @Html.DisplayNameFor(model => model.FirstName)<br/>
+
+                @Html.DisplayNameFor(model => model.LastName)<br/>
+
+                @Html.DisplayNameFor(model => model.EmailID)<br />
+
+                @Html.DisplayNameFor(model => model.UserId)<br />
+
+                @Html.DisplayNameFor(model => model.Department)<br />
+
+                @Html.DisplayNameFor(model => model.Gender)<br />
+
+                @Html.DisplayNameFor(model => model.Address)<br />
+
+                @Html.DisplayNameFor(model => model.Phone)
+            </b>
+</div>
+<div style="float:right">
+    @foreach (var item in Model)
+    {
+        @Html.DisplayFor(modelItem => item.FirstName)<br />
+
+        @Html.DisplayFor(modelItem => item.LastName)<br />
+
+        @Html.DisplayFor(modelItem => item.EmailID)<br />
+
+        @Html.DisplayFor(modelItem => item.UserId)<br />
+
+        @Html.DisplayFor(modelItem => item.Department)<br />
+
+        @Html.DisplayFor(modelItem => item.Gender)<br />
+
+        @Html.DisplayFor(modelItem => item.Address)<br />
+
+        @Html.DisplayFor(modelItem => item.Phone)
+
+    }
+
+</div>
+
+
+
+
+
+
